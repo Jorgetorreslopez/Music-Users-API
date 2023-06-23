@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 const artistSchema = new mongoose.Schema({
+    album: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Album'}],
     singles: {type: String, required: true}
 })
 

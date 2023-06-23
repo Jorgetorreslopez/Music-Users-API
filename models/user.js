@@ -4,10 +4,11 @@ const jwt = require('jsonwebtoken')
 const secretKey = 'life'
 
 const userSchema = new mongoose.Schema ({
-    userName: {type: String, required: true},
+    username: {type: String, required: true},
     password: {type: String, required: true, minlength: 8},
     email: {type: String, required: true},
-    loggedIn: { type: Boolean, default: false }
+    loggedIn: { type: Boolean, default: false },
+    playlists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist'}]
 })
 
 userSchema.pre('save', async function(next) {
