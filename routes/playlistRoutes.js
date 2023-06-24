@@ -4,6 +4,8 @@ const playlistController = require('../controllers/playlistController')
 const userController = require('../controllers/userController')
 
 router.post('/:id', userController.auth, playlistController.createPlaylist)
-router.post('/addsong/:id', userController.auth, playlistController.addSong)
+router.post('/start/:id', userController.auth, playlistController.startPlaylist)
+
+router.delete('/', playlistController.deleteStuff)
 
 module.exports = router

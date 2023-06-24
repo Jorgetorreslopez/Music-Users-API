@@ -27,20 +27,40 @@ exports.createPlaylist = async (req, res) => {
   }
 };
 
-exports.addSong = async (req, res) => {
+exports.startPlaylist = async (req, res) => {
   try {
-    const {artist, album, song } = req.body;
+    const {artist, album, song, playlistID } = req.body;
     const user = await req.user;
     if (!user || user.loggedIn === false) {
       throw new Error("User not logged in.");
     } else {
+      const playlist = await Playlist.findById(playlistID)
       const newArtist = await Artist.create({name: artist});
-      // await newArtist.save();
+      await newArtist.save();
+      playlist.contents.push(newArtist)
+
+      const artistID = await Artist.findOne(newArtist)
+      const newAlbum = await Album.create({title: album})
+      await newAlbum.save()
+      artistID.albums.push(newAlbum)
+      // const newSong = await Song.create({title: song})
+      // await newSong.save()
+      
       // user.playlists.contents.addToSet(newArtist);
       // await user.save();
-      res.json(user);
+      res.json({playlist, artistID});
     }
   } catch (error) {
     res.status(407).json({ message: error.message })
   }
 };
+
+
+exports.deleteStuff = async (req, res) => {
+  try {
+    await Album.find().deleteMany()
+    res.json("Deleted")
+  } catch (error) {
+    res.status(400).json({ message: error.message })
+  }
+}
