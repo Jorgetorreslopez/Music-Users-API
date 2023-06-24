@@ -10,7 +10,8 @@
     "test": "jest",
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "dev:test": "DEV=true nodemon server.js"
+    "dev:test": "DEV=true nodemon server.js",
+    "database": "node seed.js"
   },
   "jest": {
     "testEnvironment": "node"
