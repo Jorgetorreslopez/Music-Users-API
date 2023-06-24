@@ -26,3 +26,21 @@ exports.createPlaylist = async (req, res) => {
     res.status(406).json({ message: error.message });
   }
 };
+
+exports.addSong = async (req, res) => {
+  try {
+    const {artist, album, song } = req.body;
+    const user = await req.user;
+    if (!user || user.loggedIn === false) {
+      throw new Error("User not logged in.");
+    } else {
+      const newArtist = await Artist.create({name: artist});
+      // await newArtist.save();
+      // user.playlists.contents.addToSet(newArtist);
+      // await user.save();
+      res.json(user);
+    }
+  } catch (error) {
+    res.status(407).json({ message: error.message })
+  }
+};
