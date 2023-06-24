@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
 
 const albumSchema = new mongoose.Schema({
-    title: {type: String, required: true},
-    songs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Song'}]
+    title: {type: String, required: true}
 })
 
 const Album = mongoose.model('Album', albumSchema)
