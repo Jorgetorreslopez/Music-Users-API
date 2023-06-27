@@ -3,6 +3,6 @@ const router = express.Router()
 const songController = require('../controllers/songController')
 const userController = require('../controllers/userController')
 
-router.get('/', songController.songIndex)
+router.get('/', userController.auth, songController.songIndex)
 
 module.exports = router

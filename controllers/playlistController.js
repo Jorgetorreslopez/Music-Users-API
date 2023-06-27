@@ -4,7 +4,6 @@ const Artist = require("../models/artist");
 const Album = require("../models/album");
 const Song = require("../models/song");
 const Playlist = require("../models/playlist");
-const axios = require("axios");
 
 /*Playlist*/
 exports.createPlaylist = async (req, res) => {
@@ -25,15 +24,16 @@ exports.createPlaylist = async (req, res) => {
   }
 };
 
+
 exports.showAllPlaylists = async (req, res) => {
   try {
     const playlists = await Playlist.find().populate({
-      path: 'songs',
-      select: 'title',
+      path: "songs",
+      select: "title",
       populate: [
-        { path: 'artist', select: 'name', model: 'Artist'},
-        { path: 'album', select: 'title', model: 'Album'}
-      ]
+        { path: "artist", select: "name", model: "Artist" },
+        { path: "album", select: "title", model: "Album" },
+      ],
     });
     res.json(playlists);
   } catch (error) {
@@ -57,6 +57,7 @@ exports.editPlaylistInfo = async (req, res) => {
   }
 };
 
+
 exports.addSongToPlaylist = async (req, res) => {
   try {
     const playlist = await Playlist.findById(req.params.id);
@@ -64,10 +65,9 @@ exports.addSongToPlaylist = async (req, res) => {
       res.status(400).send("Playlist not found.");
     } else {
       const { artistName, songTitle } = req.body;
-
-      const artist = await Artist.findOne({ name: artistName})
+      const artist = await Artist.findOne({ name: artistName });
       if (!artist) {
-        res.status(401).send("Artist not Found ")
+        res.status(401).send("Artist not Found ");
       }
 
       const song = await Song.findOne({ title: songTitle, artist: artist._id });
@@ -78,13 +78,43 @@ exports.addSongToPlaylist = async (req, res) => {
       } else {
         playlist.songs.push(song);
         await playlist.save();
-        res.status(200).send(`'${song.title}' added to ${playlist.title}.`);
+        res.status(200).send(`'${song.title}' added to playlist titled '${playlist.title}'.`);
       }
     }
   } catch (error) {
     res.status(410).send({ message: error.message });
   }
 };
+
+
+exports.removeSongToPlaylist = async (req, res) => {
+  try {
+    const playlist = await Playlist.findById(req.params.id);
+    if (!playlist) {
+      res.status(400).send("Playlist not found.");
+    } else {
+      const { artistName, songTitle } = req.body;
+      const artist = await Artist.findOne({ name: artistName });
+      if (!artist) {
+        res.status(401).send("Artist not Found ");
+      }
+
+      const song = await Song.findOne({ title: songTitle, artist: artist._id });
+      if (!song) {
+        res
+          .status(400)
+          .send("Song not found.");
+      } else {
+        playlist.songs.pop(song);
+        await playlist.save();
+        res.status(200).send(`'${song.title}' removed from playlist titled '${playlist.title}'.`);
+      }
+    }
+  } catch (error) {
+    res.status(410).send({ message: error.message });
+  }
+};
+
 
 exports.deleteStuff = async (req, res) => {
   try {

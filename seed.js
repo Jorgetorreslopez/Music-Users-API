@@ -87,7 +87,7 @@ const Song = require("./models/song");
       { title: "Me Against the World", artist: artists[8], album: albums[16] },
     ]);
 
-    console.log(artists, albums, songs);
+    ;
   } catch (error) {
     console.error("An error occurred:", error);
   } finally {
