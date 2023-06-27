@@ -1,13 +1,9 @@
 /*Requirements*/
 const User = require("../models/user");
-const Artist = require("../models/artist");
-const Album = require("../models/album");
-const Song = require("../models/song");
-const Playlist = require('../models/playlist')
+const readline = require("readline");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const secretKey = "life";
-
 
 /*User & Authorization*/
 exports.auth = async (req, res, next) => {
@@ -56,7 +52,7 @@ exports.loginUser = async (req, res) => {
 
 exports.allUsers = async (req, res) => {
   try {
-    const users = await User.find().populate('playlists');
+    const users = await User.find().populate("playlists");
     res.json(users);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -83,13 +79,46 @@ exports.logoutUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    if (req.user.loggedIn === false) {
+    const user = req.user;
+    if (!user) {
+      res.status(404).send("User not found.");
+    } else if (req.user.loggedIn === false) {
       res.status(400).send("User not logged in");
     } else {
-      await req.user.deleteOne();
-      res.json({ message: `User '${req.user.username}' Deleted.` });
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+      rl.question(
+        `Are you sure you want to delete user ${req.user.username}? (Case Sensative: YES/NO)`,
+        async (confirmation) => {
+          rl.close();
+          if (confirmation === "YES") {
+            await req.user.deleteOne();
+            res.json({ message: `User '${req.user.username}' has been deleted.` });
+          } else {
+            res.status(400).send("User Deletion Cancelled");
+          }
+        }
+      );
     }
   } catch (error) {
     res.status(405).json({ message: error.message });
+  }
+};
+
+exports.editUserInfo = async (req, res) => {
+  try {
+    const updates = Object.keys(req.body);
+    const user = await User.findOne({ _id: req.params.id });
+    if (user.loggedIn === false) {
+      res.status(400).send("User not logged in.");
+    } else {
+      updates.forEach((update) => (user[update] = req.body[update]));
+      await user.save();
+      res.json(user);
+    }
+  } catch (error) {
+    res.status(402).json({ message: error.message });
   }
 };

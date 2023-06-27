@@ -4,9 +4,7 @@ const Artist = require("../models/artist");
 const Album = require("../models/album");
 const Song = require("../models/song");
 const Playlist = require("../models/playlist");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const secretKey = "life";
+const axios = require("axios");
 
 /*Playlist*/
 exports.createPlaylist = async (req, res) => {
@@ -27,40 +25,72 @@ exports.createPlaylist = async (req, res) => {
   }
 };
 
-exports.startPlaylist = async (req, res) => {
+exports.showAllPlaylists = async (req, res) => {
   try {
-    const {artist, album, song, playlistID } = req.body;
-    const user = await req.user;
-    if (!user || user.loggedIn === false) {
-      throw new Error("User not logged in.");
-    } else {
-      const playlist = await Playlist.findById(playlistID)
-      const newArtist = await Artist.create({name: artist});
-      await newArtist.save();
-      playlist.contents.push(newArtist)
-
-      const artistID = await Artist.findOne(newArtist)
-      const newAlbum = await Album.create({title: album})
-      await newAlbum.save()
-      artistID.albums.push(newAlbum)
-      // const newSong = await Song.create({title: song})
-      // await newSong.save()
-      
-      // user.playlists.contents.addToSet(newArtist);
-      // await user.save();
-      res.json({playlist, artistID});
-    }
+    const playlists = await Playlist.find().populate({
+      path: 'songs',
+      select: 'title',
+      populate: [
+        { path: 'artist', select: 'name', model: 'Artist'},
+        { path: 'album', select: 'title', model: 'Album'}
+      ]
+    });
+    res.json(playlists);
   } catch (error) {
-    res.status(407).json({ message: error.message })
+    res.status(407).json({ message: error.message });
   }
 };
 
+exports.editPlaylistInfo = async (req, res) => {
+  try {
+    const updates = Object.keys(req.body);
+    const playlist = await Playlist.findOne({ _id: req.params.id });
+    if (req.user.loggedIn === false) {
+      res.status(400).send("User not logged in.");
+    } else {
+      updates.forEach((update) => (playlist[update] = req.body[update]));
+      await playlist.save();
+      res.json(playlist);
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+exports.addSongToPlaylist = async (req, res) => {
+  try {
+    const playlist = await Playlist.findById(req.params.id);
+    if (!playlist) {
+      res.status(400).send("Playlist not found.");
+    } else {
+      const { artistName, songTitle } = req.body;
+
+      const artist = await Artist.findOne({ name: artistName})
+      if (!artist) {
+        res.status(401).send("Artist not Found ")
+      }
+
+      const song = await Song.findOne({ title: songTitle, artist: artist._id });
+      if (!song) {
+        res
+          .status(400)
+          .send("Song currently not Available. Besides it sucks.... You suck.");
+      } else {
+        playlist.songs.push(song);
+        await playlist.save();
+        res.status(200).send(`'${song.title}' added to ${playlist.title}.`);
+      }
+    }
+  } catch (error) {
+    res.status(410).send({ message: error.message });
+  }
+};
 
 exports.deleteStuff = async (req, res) => {
   try {
-    await Album.find().deleteMany()
-    res.json("Deleted")
+    await Album.find().deleteMany();
+    res.json("Deleted");
   } catch (error) {
-    res.status(400).json({ message: error.message })
+    res.status(400).json({ message: error.message });
   }
-}
+};
