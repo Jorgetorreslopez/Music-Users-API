@@ -95,7 +95,11 @@ exports.deleteUser = async (req, res) => {
           rl.close();
           if (confirmation === "YES") {
             await req.user.deleteOne();
-            res.status(400).send({ message: `User '${req.user.username}' has been deleted.` });
+            res
+              .status(400)
+              .send({
+                message: `User '${req.user.username}' has been deleted.`,
+              });
           } else {
             res.status(400).send("User Deletion Cancelled");
           }

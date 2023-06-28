@@ -24,7 +24,6 @@ exports.createPlaylist = async (req, res) => {
   }
 };
 
-
 exports.showAllPlaylists = async (req, res) => {
   try {
     const playlists = await Playlist.find().populate({
@@ -57,7 +56,6 @@ exports.editPlaylistInfo = async (req, res) => {
   }
 };
 
-
 exports.addSongToPlaylist = async (req, res) => {
   try {
     const playlist = await Playlist.findById(req.params.id);
@@ -78,14 +76,17 @@ exports.addSongToPlaylist = async (req, res) => {
       } else {
         playlist.songs.push(song);
         await playlist.save();
-        res.status(200).send(`'${song.title}' added to playlist titled '${playlist.title}'.`);
+        res
+          .status(200)
+          .send(
+            `'${song.title}' added to playlist titled '${playlist.title}'.`
+          );
       }
     }
   } catch (error) {
     res.status(410).send({ message: error.message });
   }
 };
-
 
 exports.removeSongToPlaylist = async (req, res) => {
   try {
@@ -101,20 +102,21 @@ exports.removeSongToPlaylist = async (req, res) => {
 
       const song = await Song.findOne({ title: songTitle, artist: artist._id });
       if (!song) {
-        res
-          .status(400)
-          .send("Song not found.");
+        res.status(400).send("Song not found.");
       } else {
         playlist.songs.pop(song);
         await playlist.save();
-        res.status(200).send(`'${song.title}' removed from playlist titled '${playlist.title}'.`);
+        res
+          .status(200)
+          .send(
+            `'${song.title}' removed from playlist titled '${playlist.title}'.`
+          );
       }
     }
   } catch (error) {
     res.status(410).send({ message: error.message });
   }
 };
-
 
 // exports.deleteStuff = async (req, res) => {
 //   try {
