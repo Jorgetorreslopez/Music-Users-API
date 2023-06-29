@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const secretKey = "life";
+require("dotenv").config()
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
@@ -19,7 +19,7 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.methods.generateAuthToken = async function () {
-  const token = jwt.sign({ _id: this._id }, "life");
+  const token = jwt.sign({ _id: this._id }, process.env.SECRET_KEY);
   return token;
 };
 

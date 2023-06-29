@@ -1,15 +1,15 @@
 /*Requirements*/
+require("dotenv").config();
 const User = require("../models/user");
 const readline = require("readline");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const secretKey = "life";
 
 /*User & Authorization*/
 exports.auth = async (req, res, next) => {
   try {
     let token = req.header("Authorization").replace("Bearer ", "");
-    const data = jwt.verify(token, "life");
+    const data = jwt.verify(token, process.env.SECRET_KEY);
     const user = await User.findOne({ _id: data._id });
     if (!user) {
       throw new Error("User not found to Authorize");
@@ -85,29 +85,11 @@ exports.deleteUser = async (req, res) => {
     } else if (req.user.loggedIn === false) {
       res.status(400).send("User not logged in");
     } else {
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
-      rl.question(
-        `Are you sure you want to delete user ${req.user.username}? (Case Sensative: YES/NO)`,
-        async (confirmation) => {
-          rl.close();
-          if (confirmation === "YES") {
-            await req.user.deleteOne();
-            res
-              .status(400)
-              .send({
-                message: `User '${req.user.username}' has been deleted.`,
-              });
-          } else {
-            res.status(400).send("User Deletion Cancelled");
-          }
-        }
-      );
+      await req.user.deleteOne();
+      res.json({ message: "User deleted" });
     }
   } catch (error) {
-    res.status(405).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 
