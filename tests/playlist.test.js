@@ -18,6 +18,7 @@ afterEach(async () => {
   await Song.deleteMany();
   await User.deleteMany();
   await Playlist.deleteMany();
+  await Artist.deleteMany();
 });
 
 afterAll(async () => {
@@ -168,12 +169,38 @@ describe("Tests the Playlist Endpoints", () => {
         artistName: "yes",
         songTitle: "si",
       });
-    console.log(playlist, "Playlist");
-    console.log(artist1, "Artist");
-    console.log(song1, "Song");
-    console.log(response.body, "RESULTS");
+    // console.log(playlist, "Playlist");
+    // console.log(artist1, "Artist");
+    // console.log(song1, "Song");
+    // console.log(response.body, "RESULTS");
 
     expect(response.statusCode).toBe(200);
-    //expect(response.body).toBe(`'si' removed to playlist titled 'playlist1'.`);
+    expect(response.body).toBe(
+      `'si' removed from playlist titled 'playlist1'.`
+    );
+  });
+
+  test("It should delete a specified playlist", async () => {
+    const user1 = new User({
+      username: "test",
+      email: "testing",
+      password: "thisistest",
+      loggedIn: true,
+    });
+    await user1.save();
+
+    const token = await user1.generateAuthToken();
+
+    const playlist = await Playlist.create({
+      title: "playlist1",
+      description: "yes",
+    });
+
+    const response = await request(app)
+      .delete(`/playlists/${playlist._id}`)
+      .set("Authorization", `Bearer ${token}`);
+    console.log(response.body, "YOOOOOO")
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual("'playlist1' delete successful")  
   });
 });

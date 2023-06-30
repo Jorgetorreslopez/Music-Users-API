@@ -16,7 +16,6 @@ router.post(
   userController.auth,
   playlistController.removeSongFromPlaylist
 );
-
-//router.delete('/', playlistController.deleteStuff)
+router.delete('/:id', userController.auth, playlistController.deletePlaylist)
 
 module.exports = router;

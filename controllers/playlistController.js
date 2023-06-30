@@ -118,11 +118,18 @@ exports.removeSongFromPlaylist = async (req, res) => {
   }
 };
 
-// exports.deleteStuff = async (req, res) => {
-//   try {
-//     await Album.find().deleteMany();
-//     res.json("Deleted");
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// };
+exports.deletePlaylist = async (req, res) => {
+  try {
+    const playlist = await Playlist.findById(req.params.id);
+    if (req.user.loggedIn === false) {
+      res.status(400).send("User not logged in.");
+    } else if (!playlist){
+      res.status(404).send("Playlist not found.")
+    } else {
+      await playlist.deleteOne();
+      res.json(`'${playlist.title}' delete successful`);
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};

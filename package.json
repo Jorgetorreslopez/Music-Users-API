@@ -13,8 +13,9 @@
     "testSong": "jest --testPathPattern=song.test.js",
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "dev:test": "DEV=true nodemon server.js",
-    "database": "node seed.js"
+    "dev:load": "DEV=true nodemon server.js",
+    "database": "node seed.js",
+    "load:getSongs": "artillery run tests/songArtillery/getSongs.yml"
   },
   "jest": {
     "testEnvironment": "node"
