@@ -42,7 +42,6 @@ exports.loginUser = async (req, res) => {
     } else {
       user.loggedIn = true;
       await user.save();
-      const token = await user.generateAuthToken();
       res.json("Logged In Successfully");
     }
   } catch (error) {
@@ -73,7 +72,7 @@ exports.logoutUser = async (req, res) => {
       res.json({ message: "Log Out Successful" });
     }
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(405).json({ message: error.message });
   }
 };
 
@@ -81,7 +80,7 @@ exports.deleteUser = async (req, res) => {
   try {
     const user = req.user;
     if (!user) {
-      res.status(404).send("User not found.");
+      res.status(400).send("User not found.");
     } else if (req.user.loggedIn === false) {
       res.status(400).send("User not logged in");
     } else {

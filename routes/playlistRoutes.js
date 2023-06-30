@@ -3,7 +3,7 @@ const router = express.Router();
 const playlistController = require("../controllers/playlistController");
 const userController = require("../controllers/userController");
 
-router.post("/:id", userController.auth, playlistController.createPlaylist);
+router.post("/", userController.auth, playlistController.createPlaylist);
 router.get("/", userController.auth, playlistController.showAllPlaylists);
 router.put("/:id", userController.auth, playlistController.editPlaylistInfo);
 router.post(
@@ -14,7 +14,7 @@ router.post(
 router.post(
   "/remove/:id",
   userController.auth,
-  playlistController.removeSongToPlaylist
+  playlistController.removeSongFromPlaylist
 );
 
 //router.delete('/', playlistController.deleteStuff)

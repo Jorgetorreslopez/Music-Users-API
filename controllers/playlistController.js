@@ -78,7 +78,7 @@ exports.addSongToPlaylist = async (req, res) => {
         await playlist.save();
         res
           .status(200)
-          .send(
+          .json(
             `'${song.title}' added to playlist titled '${playlist.title}'.`
           );
       }
@@ -88,11 +88,11 @@ exports.addSongToPlaylist = async (req, res) => {
   }
 };
 
-exports.removeSongToPlaylist = async (req, res) => {
+exports.removeSongFromPlaylist = async (req, res) => {
   try {
     const playlist = await Playlist.findById(req.params.id);
     if (!playlist) {
-      res.status(400).send("Playlist not found.");
+      res.status(404).send("Playlist not found.");
     } else {
       const { artistName, songTitle } = req.body;
       const artist = await Artist.findOne({ name: artistName });
@@ -102,13 +102,13 @@ exports.removeSongToPlaylist = async (req, res) => {
 
       const song = await Song.findOne({ title: songTitle, artist: artist._id });
       if (!song) {
-        res.status(400).send("Song not found.");
+        res.status(401).send("Song not found.");
       } else {
-        playlist.songs.pop(song);
+        playlist.songs.pull(song);
         await playlist.save();
         res
           .status(200)
-          .send(
+          .json(
             `'${song.title}' removed from playlist titled '${playlist.title}'.`
           );
       }
