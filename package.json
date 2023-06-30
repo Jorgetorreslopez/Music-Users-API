@@ -15,6 +15,12 @@
     "dev": "nodemon server.js",
     "dev:load": "DEV=true nodemon server.js",
     "database": "node seed.js",
+    "load:createUser": "artillery run tests/userArtillery/create.yml",
+    "load:deleteUser": "artillery run tests/userArtillery/delete.yml",
+    "load:getUsers": "artillery run tests/userArtillery/getAll.yml",
+    "load:loginUser": "artillery run tests/userArtillery/login.yml",
+    "load:logoutUser": "artillery run tests/userArtillery/logout.yml",
+    "load:updateUser": "artillery run tests/userArtillery/update.yml",
     "load:getSongs": "artillery run tests/songArtillery/getSongs.yml"
   },
   "jest": {

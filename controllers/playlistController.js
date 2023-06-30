@@ -69,7 +69,7 @@ exports.addSongToPlaylist = async (req, res) => {
       }
 
       const song = await Song.findOne({ title: songTitle, artist: artist._id });
-      if (!song) {
+      if (!song || !song.title) {
         res.status(400).json({
           message:
             "Song currently not Available. Besides it sucks.... You suck.",

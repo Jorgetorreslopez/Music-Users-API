@@ -1,0 +1,34 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 60
+      arrivalRate: 20
+scenarios:
+  - flow:
+      - post:
+          url: "/users"
+          json:
+            username: "Test"
+            email: "{{ $randomString() }}"
+            password: "Password123"
+          capture:
+            - json: $.token
+              as: "token"
+            - json: $.user.email
+              as: "randomEmail"  
+            - json: $.user._id
+              as: "userId"   
+      - post:
+          url: "/users/login"
+          headers:
+            Authorization: "Bearer {{token}}"
+          json:
+            email: "{{randomEmail}}"
+            password: "Password123"
+      - put:
+          url: "/users/{{userId}}"
+          headers:
+            Authorization: "Bearer {{token}}"
+          json:
+            email: "so much test"
+            password: "Password456" 
