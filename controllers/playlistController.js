@@ -45,7 +45,7 @@ exports.editPlaylistInfo = async (req, res) => {
     const updates = Object.keys(req.body);
     const playlist = await Playlist.findOne({ _id: req.params.id });
     if (req.user.loggedIn === false) {
-      res.status(400).send("User not logged in.");
+      res.status(400).json({ message: "User not logged in." });
     } else {
       updates.forEach((update) => (playlist[update] = req.body[update]));
       await playlist.save();
@@ -60,31 +60,30 @@ exports.addSongToPlaylist = async (req, res) => {
   try {
     const playlist = await Playlist.findById(req.params.id);
     if (!playlist) {
-      res.status(400).send("Playlist not found.");
+      res.status(400).json({ message: "Playlist not found." });
     } else {
       const { artistName, songTitle } = req.body;
       const artist = await Artist.findOne({ name: artistName });
       if (!artist) {
-        res.status(401).send("Artist not Found ");
+        res.status(401).json({ message: "Artist not Found " });
       }
 
       const song = await Song.findOne({ title: songTitle, artist: artist._id });
       if (!song) {
-        res
-          .status(400)
-          .send("Song currently not Available. Besides it sucks.... You suck.");
+        res.status(400).json({
+          message:
+            "Song currently not Available. Besides it sucks.... You suck.",
+        });
       } else {
         playlist.songs.push(song);
         await playlist.save();
-        res
-          .status(200)
-          .json(
-            `'${song.title}' added to playlist titled '${playlist.title}'.`
-          );
+        res.status(200).json({
+          message: `'${song.title}' added to playlist titled '${playlist.title}'.`,
+        });
       }
     }
   } catch (error) {
-    res.status(410).send({ message: error.message });
+    res.status(410).json({ message: error.message });
   }
 };
 
@@ -92,29 +91,29 @@ exports.removeSongFromPlaylist = async (req, res) => {
   try {
     const playlist = await Playlist.findById(req.params.id);
     if (!playlist) {
-      res.status(404).send("Playlist not found.");
+      res.status(404).json({ message: "Playlist not found." });
     } else {
       const { artistName, songTitle } = req.body;
       const artist = await Artist.findOne({ name: artistName });
       if (!artist) {
-        res.status(401).send("Artist not Found ");
+        res.status(401).json({ message: "Artist not Found " });
       }
 
       const song = await Song.findOne({ title: songTitle, artist: artist._id });
       if (!song) {
-        res.status(401).send("Song not found.");
+        res.status(401).json({ message: "Song not found." });
       } else {
         playlist.songs.pull(song);
         await playlist.save();
         res
           .status(200)
-          .json(
-            `'${song.title}' removed from playlist titled '${playlist.title}'.`
-          );
+          .json({
+            message: `'${song.title}' removed from playlist titled '${playlist.title}'.`,
+          });
       }
     }
   } catch (error) {
-    res.status(410).send({ message: error.message });
+    res.status(410).json({ message: error.message });
   }
 };
 
@@ -122,12 +121,12 @@ exports.deletePlaylist = async (req, res) => {
   try {
     const playlist = await Playlist.findById(req.params.id);
     if (req.user.loggedIn === false) {
-      res.status(400).send("User not logged in.");
-    } else if (!playlist){
-      res.status(404).send("Playlist not found.")
+      res.status(400).json({ message: "User not logged in." });
+    } else if (!playlist) {
+      res.status(404).json({ message: "Playlist not found." });
     } else {
       await playlist.deleteOne();
-      res.json(`'${playlist.title}' delete successful`);
+      res.json({ message: `'${playlist.title}' delete successful` });
     }
   } catch (error) {
     res.status(400).json({ message: error.message });

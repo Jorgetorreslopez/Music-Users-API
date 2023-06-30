@@ -17,7 +17,7 @@ exports.auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    res.status(401).send("Not Authorized");
+    res.status(401).json({ message: "Not Authorized"});
   }
 };
 
@@ -35,14 +35,14 @@ exports.createUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      res.status(400).send("Email address not Found");
+    if (!user || user.loggedIn === true) {
+      res.status(400).json({ message: "Email address not Found or already logged in"});
     } else if (!(await bcrypt.compare(req.body.password, user.password))) {
-      res.status(400).send("Incorrect Password");
+      res.status(400).json({message: "Incorrect Password"});
     } else {
       user.loggedIn = true;
       await user.save();
-      res.json("Logged In Successfully");
+      res.json({ message: "Logged In Successfully"});
     }
   } catch (error) {
     res.status(403).json({ message: error.message });
@@ -63,9 +63,9 @@ exports.logoutUser = async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     const token = req.header("Authorization").replace("Bearer ", "");
     if (!user || user.loggedIn === false) {
-      res.status(400).send("Email address not Found or not logged in");
+      res.status(400).json({ message: "Email address not Found or not logged in"});
     } else if (!(await bcrypt.compare(req.body.password, user.password))) {
-      res.status(400).send("Incorrect Password");
+      res.status(400).json({ message: "Incorrect Password"});
     } else {
       user.loggedIn = false;
       await user.save();
@@ -80,9 +80,9 @@ exports.deleteUser = async (req, res) => {
   try {
     const user = req.user;
     if (!user) {
-      res.status(400).send("User not found.");
+      res.status(400).json("User not found.");
     } else if (req.user.loggedIn === false) {
-      res.status(400).send("User not logged in");
+      res.status(400).json({ message: "User not logged in"});
     } else {
       await req.user.deleteOne();
       res.json({ message: "User deleted" });
@@ -97,7 +97,7 @@ exports.editUserInfo = async (req, res) => {
     const updates = Object.keys(req.body);
     const user = await User.findOne({ _id: req.params.id });
     if (user.loggedIn === false) {
-      res.status(400).send("User not logged in.");
+      res.status(400).json({ message: "User not logged in."});
     } else {
       updates.forEach((update) => (user[update] = req.body[update]));
       await user.save();
