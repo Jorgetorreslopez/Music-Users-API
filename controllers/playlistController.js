@@ -65,12 +65,12 @@ exports.addSongToPlaylist = async (req, res) => {
       const { artistName, songTitle } = req.body;
       const artist = await Artist.findOne({ name: artistName });
       if (!artist) {
-        res.status(401).json({ message: "Artist not Found " });
+        res.status(403).json({ message: "Artist not Found " });
       }
 
       const song = await Song.findOne({ title: songTitle, artist: artist._id });
-      if (!song || !song.title) {
-        res.status(400).json({
+      if (!song) {
+        res.status(403).json({
           message:
             "Song currently not Available. Besides it sucks.... You suck.",
         });
@@ -83,7 +83,7 @@ exports.addSongToPlaylist = async (req, res) => {
       }
     }
   } catch (error) {
-    res.status(410).json({ message: error.message });
+    res.status(408).json({ message: error.message });
   }
 };
 

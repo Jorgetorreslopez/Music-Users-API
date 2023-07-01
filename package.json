@@ -21,6 +21,8 @@
     "load:loginUser": "artillery run tests/userArtillery/login.yml",
     "load:logoutUser": "artillery run tests/userArtillery/logout.yml",
     "load:updateUser": "artillery run tests/userArtillery/update.yml",
+    "load:createPlaylist": "artillery run tests/playlistArtillery/create.yml",
+    "load:addSong": "artillery run tests/playlistArtillery/add.yml",
     "load:getSongs": "artillery run tests/songArtillery/getSongs.yml"
   },
   "jest": {
