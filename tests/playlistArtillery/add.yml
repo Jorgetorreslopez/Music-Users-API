@@ -33,12 +33,12 @@ scenarios:
             title: "siiiiii - {{userId}}"
             description: "porque"
           capture:
-            - json: $.playlists[0]
+            - json: $.playlists[0]._id
               as: "playlistId"     
       - post:
-          url: "/playlists/add/{{ $requestVariables.playlistId }}"
+          url: "/playlists/add/{{playlistId }}"
           headers:
             Authorization: "Bearer {{token}}"
           json:
             artistName: "Ramone"
-            songTitle: "Party"              
+            songTitle: "Foolish"              
