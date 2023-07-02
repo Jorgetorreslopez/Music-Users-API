@@ -30,16 +30,15 @@ scenarios:
           headers:
             Authorization: "Bearer {{token}}"
           json:
-            title: "test"
-            description: "testing"
+            title: "siiiiii - {{userId}}"
+            description: "porque"
           capture:
-            - json: $.playlists[0]._id
-              as: "playlistId"
-            - exec: console.log("Playlist ID:", {{playlistId}})      
+            - json: $.playlists[0]
+              as: "playlistId"     
       - post:
-          url: "/playlists/add/{{playlistId}}"
+          url: "/playlists/add/{{ $requestVariables.playlistId }}"
           headers:
             Authorization: "Bearer {{token}}"
           json:
-            artistName: "Bad Bunny"
-            songTitle: "U"              
+            artistName: "Ramone"
+            songTitle: "Party"              

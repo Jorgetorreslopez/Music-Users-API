@@ -1,7 +1,7 @@
 /*Requirements*/
 require("dotenv").config();
 const User = require("../models/user");
-const readline = require("readline");
+//const readline = require("readline");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
