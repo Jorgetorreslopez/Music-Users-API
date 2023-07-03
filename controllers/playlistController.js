@@ -65,7 +65,7 @@ exports.addSongToPlaylist = async (req, res) => {
       const { artistName, songTitle } = req.body;
       const artist = await Artist.findOne({ name: artistName });
       if (!artist) {
-        res.status(403).json({ message: "Artist not Found " });
+        return res.status(403).json({ message: "Artist not Found " });
       }
 
       const song = await Song.findOne({ title: songTitle, artist: artist._id });
@@ -77,13 +77,13 @@ exports.addSongToPlaylist = async (req, res) => {
       } else {
         playlist.songs.push(song);
         await playlist.save();
-        res.status(200).json({
+        return res.status(200).json({
           message: `'${song.title}' added to playlist titled '${playlist.title}'.`,
         });
       }
     }
   } catch (error) {
-    res.status(408).json({ message: error.message });
+    return res.status(408).json({ message: error.message });
   }
 };
 

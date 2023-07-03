@@ -82,10 +82,8 @@ let mongoServer;
       { title: "Dear Mama", artist: artists[8], album: albums[16] },
       { title: "Me Against the World", artist: artists[8], album: albums[16] },
     ]);
-    console.log("Added to Memory")
+    console.log("Added to Memory", songs)
   } catch (error) {
     console.error("An error occurred:", error);
-  } finally {
-    process.exit();
   }
 })();

@@ -36,9 +36,10 @@ scenarios:
             - json: $.playlists[0]._id
               as: "playlistId"     
       - post:
-          url: "/playlists/add/{{playlistId }}"
+          url: "/playlists/add/{{playlistId}}"
           headers:
             Authorization: "Bearer {{token}}"
           json:
             artistName: "Ramone"
-            songTitle: "Foolish"              
+            songTitle: "Your Place" 
+     
