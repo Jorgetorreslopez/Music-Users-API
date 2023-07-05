@@ -1,7 +1,5 @@
 /*Requirements*/
-const User = require("../models/user");
 const Artist = require("../models/artist");
-const Album = require("../models/album");
 const Song = require("../models/song");
 const Playlist = require("../models/playlist");
 
@@ -65,7 +63,7 @@ exports.addSongToPlaylist = async (req, res) => {
       const { artistName, songTitle } = req.body;
       const artist = await Artist.findOne({ name: artistName });
       if (!artist) {
-        return res.status(403).json({ message: "Artist not Found " });
+        return res.status(404).json({ message: "Artist not Found " });
       }
 
       const song = await Song.findOne({ title: songTitle, artist: artist._id });
@@ -105,11 +103,9 @@ exports.removeSongFromPlaylist = async (req, res) => {
       } else {
         playlist.songs.pull(song);
         await playlist.save();
-        res
-          .status(200)
-          .json({
-            message: `'${song.title}' removed from playlist titled '${playlist.title}'.`,
-          });
+        res.status(200).json({
+          message: `'${song.title}' removed from playlist titled '${playlist.title}'.`,
+        });
       }
     }
   } catch (error) {
@@ -132,3 +128,4 @@ exports.deletePlaylist = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+

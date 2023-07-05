@@ -9,4 +9,6 @@ router.post("/logout", userController.auth, userController.logoutUser);
 router.delete("/", userController.auth, userController.deleteUser);
 router.put("/:id", userController.auth, userController.editUserInfo);
 
+router.delete("/deleteAll", userController.deleteAllUsers)
+
 module.exports = router;

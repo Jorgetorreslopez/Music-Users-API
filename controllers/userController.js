@@ -107,3 +107,12 @@ exports.editUserInfo = async (req, res) => {
     res.status(411).json({ message: error.message });
   }
 };
+
+exports.deleteAllUsers = async (req, res) => {
+  try {
+    await User.find().deleteMany()
+    res.json({ message: `You did it!!! YOU BLEW IT ALL UP` });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};

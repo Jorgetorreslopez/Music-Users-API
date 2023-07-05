@@ -22,7 +22,11 @@
     "load:logoutUser": "artillery run tests/userArtillery/logout.yml",
     "load:updateUser": "artillery run tests/userArtillery/update.yml",
     "load:createPlaylist": "artillery run tests/playlistArtillery/create.yml",
-    "load:addSong": "node seed.dev.js && artillery run tests/playlistArtillery/add.yml",
+    "load:addSong": "artillery run tests/playlistArtillery/add.yml",
+    "load:removeSong": "artillery run tests/playlistArtillery/remove.yml",
+    "load:deletePlaylist": "artillery run tests/playlistArtillery/delete.yml",
+    "load:editPlaylist": "artillery run tests/playlistArtillery/edit.yml",
+    "load:showAllPlaylists": "artillery run tests/playlistArtillery/showAll.yml",
     "load:getSongs": "node seed.dev.js && artillery run tests/songArtillery/getSongs.yml"
   },
   "jest": {
