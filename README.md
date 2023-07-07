@@ -27,6 +27,37 @@
   </code></pre>
 
   <h2>Using The Music Playlist API</h2>
-  <p>To begin setting up your account to create playlists, run the following command:</p>
+  <p>To begin, run the following command:</p>
   <pre><code>npm run dev</code></pre>
-  <p>The application should now be running on <code>http://localhost:3000</code>. You should be seeing a message sure </p>
+  <p>The application should now be running on <code>http://localhost:3000</code>. You should be seeing a message in your terminal that says the following: <code>"Andre 3000"</code>, which states that your app is connected, and <code>"MONGO ON"</code>, which states that your MONGODB database is connected</p>
+
+<p>Once connected, run the following command to add a collection of songs to your database that you can user for this API:</p>
+  <pre><code>npm run database</code></pre>
+<p>This starts your app without DEV mode. More about this in the "Testing" section. </p>
+
+<h2>API Requests in Postman</h2>
+<p>To make an API request using Postman:</p>
+<ol>
+  <li>Open Postman.</li>
+  <li>Make sure your server is running locally on <code>http://localhost:3000</code>.</li>
+  <li>Set the request method (GET, POST, PUT, DELETE). Start with Creating a user first to save the webtoken for later use.</li>
+  <li>Enter the request URL based on the endpoints shown in the routes folders. Make sure to pay attention to which routes require Authorization via Webtoken.</li>
+  <li>Set the necessary request headers, body(raw, JSON), and, if required, authentication.</li>
+  <li>Enter any required information in JSON object format depending on the endpoint in the req.body.</li>
+  <li>Click Submit</li>
+</ol>
+
+<h2>Testing</h2>
+<p>To run the tests:</p>
+<ol>
+  <li>Ensure the app is not running. If unsure enter the following in the terminal: <code>pkill node</code> </li>
+  <li>Execute the following commands:</li>
+</ol>
+<p>To test All routes:</p>
+<pre><code>npm run testAll</code></pre>
+<p>To test User routes only:</p>
+<pre><code>npm run testUser</code></pre>
+<p>To test Playlist routes only:</p>
+<pre><code>npm run testPlaylist</code></pre>
+<p>To test Song routes only:</p>
+<pre><code>npm run testSong</code></pre>
