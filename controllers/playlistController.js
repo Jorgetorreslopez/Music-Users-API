@@ -2,6 +2,7 @@
 const Artist = require("../models/artist");
 const Song = require("../models/song");
 const Playlist = require("../models/playlist");
+const Album = require("../models/album");
 
 /*Playlist*/
 exports.createPlaylist = async (req, res) => {
@@ -129,3 +130,11 @@ exports.deletePlaylist = async (req, res) => {
   }
 };
 
+exports.deleteAllPlaylist = async (req, res) => {
+  try {
+    await Playlist.find().deleteMany();
+    res.json({ message: `'All delete successful` });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};

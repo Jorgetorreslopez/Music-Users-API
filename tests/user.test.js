@@ -71,7 +71,7 @@ describe("Tests the User Endpoints", () => {
       .send({ email: "testing", password: "thisistest" });
 
       expect(response.statusCode).toBe(200);
-      expect(response.body).toEqual("Logged In Successfully"); 
+      expect(response.body.message).toEqual("Logged In Successfully"); 
   });
 
   test("It should logout a user", async () => {
@@ -106,7 +106,7 @@ describe("Tests the User Endpoints", () => {
     const token = await user1.generateAuthToken();
 
     const response = await request(app)
-      .put(`/users/${user1._id}`)
+      .put(`/users`)
       .set("Authorization", `Bearer ${token}`)
       .send({ username: "Jane Doe", email: "jane.doe@example.com" });
 

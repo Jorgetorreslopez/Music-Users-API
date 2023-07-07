@@ -95,7 +95,7 @@ exports.deleteUser = async (req, res) => {
 exports.editUserInfo = async (req, res) => {
   try {
     const updates = Object.keys(req.body);
-    const user = await User.findOne({ _id: req.params.id });
+    const user = req.user
     if (!user || user.loggedIn === false) {
       res.status(407).json({ message: "User not Found or not logged in"});
     } else {

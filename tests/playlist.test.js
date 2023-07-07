@@ -70,7 +70,7 @@ describe("Tests the Playlist Endpoints", () => {
     const response = await request(app)
       .get("/playlists")
       .set("Authorization", `Bearer ${token}`);
-    //console.log(response.body, "CODE!!!");
+    console.log(response.body, "CODE!!!");
 
     expect(response.statusCode).toBe(200);
     expect(response.body.length).toBe(2);
@@ -136,7 +136,7 @@ describe("Tests the Playlist Endpoints", () => {
     //console.log(response.body, "RESULTS");
 
     expect(response.statusCode).toBe(200);
-    expect(response.body).toBe(`'si' added to playlist titled 'playlist1'.`);
+    expect(response.body.message).toEqual(`'si' added to playlist titled 'playlist1'.`);
   });
 
   test("It should remove a song to playlist", async () => {
@@ -175,7 +175,7 @@ describe("Tests the Playlist Endpoints", () => {
     // console.log(response.body, "RESULTS");
 
     expect(response.statusCode).toBe(200);
-    expect(response.body).toBe(
+    expect(response.body.message).toEqual(
       `'si' removed from playlist titled 'playlist1'.`
     );
   });
@@ -199,8 +199,8 @@ describe("Tests the Playlist Endpoints", () => {
     const response = await request(app)
       .delete(`/playlists/${playlist._id}`)
       .set("Authorization", `Bearer ${token}`);
-    console.log(response.body, "YOOOOOO")
+   // console.log(response.body, "YOOOOOO")
     expect(response.statusCode).toBe(200)
-    expect(response.body).toEqual("'playlist1' delete successful")  
+    expect(response.body.message).toEqual("'playlist1' delete successful")  
   });
 });
