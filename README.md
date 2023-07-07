@@ -46,9 +46,22 @@
   <li>Enter any required information in JSON object format depending on the endpoint in the req.body.</li>
   <li>Click Submit</li>
 </ol>
+<p>Lets create a user together.</p>
+<ol>
+  <li>In the url: enter <code>http://localhost:3000/users</code></li>
+  <li>Set the HTTP request to <strong>POST</strong></li>
+  <li>In the request body, select the <strong>raw</strong> option and choose <strong>JSON</strong> from the dropdown.</li>
+  <li><p>Enter the following JSON object as the request body:</p>
+<pre><code>{
+  "username": "marthastewartknows",
+  "email": "test@marthaskitchen.com",
+  "password": "thisismartha",
+}</code></pre></li>
+  <li>Click the <strong>Send</strong> button to submit the request and you should recieve an object for your new user in the response.body.</li>
+</ol>
 
 <h2>Testing</h2>
-<p>To run the tests:</p>
+<p>To test routes with Supertest/Jest:</p>
 <ol>
   <li>Ensure the app is not running. If unsure enter the following in the terminal: <code>pkill node</code> </li>
   <li>Execute the following commands:</li>
@@ -61,3 +74,27 @@
 <pre><code>npm run testPlaylist</code></pre>
 <p>To test Song routes only:</p>
 <pre><code>npm run testSong</code></pre>
+
+<p>To test routes with Artillery:</p>
+<ol>
+<li>Turn your app on in DEV mode by entering the following command:</li>
+<pre><code>npm run dev:load</code></pre>
+<li>Execute the following commands based on the routes you want to test:</li>
+<pre><code>
+  load:createUser
+  load:deleteUser
+  load:getUsers
+  load:loginUser
+  load:logoutUser
+  load:updateUser
+  load:createPlaylist
+  load:addSong
+  load:removeSong
+  load:deletePlaylist
+  load:editPlaylist
+  load:showAllPlaylists
+  load:getSongs</code></pre>
+</ol>
+
+<h2>Trello</h2>
+<a href="https://trello.com/invite/b/kHnvxM6Z/ATTI65a35541391076abd9c55c147d30c25dCC66C9EE/music-playlist-api">Click Here for Trello Board Info</a>
