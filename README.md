@@ -96,5 +96,10 @@
   load:getSongs</code></pre>
 </ol>
 
+<h2>Wireframes</h2>
+<img width="1068" alt="Screenshot 2023-07-07 at 6 27 14 PM" src="https://github.com/Jorgetorreslopez/Music-Users-API/assets/129123445/d4d21529-f354-4271-8bbc-4933346a7e12">
+
+
+
 <h2>Trello</h2>
 <a href="https://trello.com/invite/b/kHnvxM6Z/ATTI65a35541391076abd9c55c147d30c25dCC66C9EE/music-playlist-api">Click Here for Trello Board Info</a>
