@@ -99,6 +99,13 @@
 <h2>Wireframes</h2>
 <img width="1068" alt="Screenshot 2023-07-07 at 6 27 14 PM" src="https://github.com/Jorgetorreslopez/Music-Users-API/assets/129123445/d4d21529-f354-4271-8bbc-4933346a7e12">
 
+<img width="1093" alt="Screenshot 2023-07-07 at 10 11 51 PM" src="https://github.com/Jorgetorreslopez/Music-Users-API/assets/129123445/240b6fd2-81e4-45dc-b0f8-9576d2556133">
+
+<img width="1087" alt="Screenshot 2023-07-07 at 10 19 23 PM" src="https://github.com/Jorgetorreslopez/Music-Users-API/assets/129123445/329c6b46-b765-4c5c-a2ed-9b0249745f8e">
+
+<img width="1066" alt="Screenshot 2023-07-07 at 10 40 46 PM" src="https://github.com/Jorgetorreslopez/Music-Users-API/assets/129123445/1d830c11-924f-4b03-9b81-d309b192192f">
+
+
 <h2>ERD Diagram</h2>
 <img width="1504" alt="Screenshot 2023-07-07 at 9 40 31 PM" src="https://github.com/Jorgetorreslopez/Music-Users-API/assets/129123445/e248b970-53b8-4da8-b89e-126f6e9c3c10">
 
