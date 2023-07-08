@@ -99,6 +99,8 @@
 <h2>Wireframes</h2>
 <img width="1068" alt="Screenshot 2023-07-07 at 6 27 14 PM" src="https://github.com/Jorgetorreslopez/Music-Users-API/assets/129123445/d4d21529-f354-4271-8bbc-4933346a7e12">
 
+<h2>ERD Diagram</h2>
+<img width="1504" alt="Screenshot 2023-07-07 at 9 40 31 PM" src="https://github.com/Jorgetorreslopez/Music-Users-API/assets/129123445/e248b970-53b8-4da8-b89e-126f6e9c3c10">
 
 
 <h2>Trello</h2>
